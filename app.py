@@ -2,6 +2,7 @@
 import hashlib
 import hmac
 import os
+import secrets
 import sqlite3
 import time
 
@@ -51,6 +52,7 @@ def create_app(config=None):
     app.config["DB"] = db
     app.config.setdefault("CLOCK", time.time)
     failures = {}  # username -> {"count": int, "locked_until": float}
+    sessions = {}  # session id -> username (kept on the server so logout really ends a session)
 
     @app.route("/")
     def index():
@@ -82,18 +84,22 @@ def create_app(config=None):
                     state["count"] = 0
                 return render_template("login.html", error="Invalid username or password"), 401
             failures.pop(username, None)
-            session["user"] = username
+            sid = secrets.token_urlsafe(32)
+            sessions[sid] = username
+            session["sid"] = sid
             return redirect(url_for("dashboard"))
         return render_template("login.html")
 
     @app.route("/dashboard")
     def dashboard():
-        if "user" not in session:
+        user = sessions.get(session.get("sid"))
+        if user is None:
             return redirect(url_for("login"))
-        return render_template("dashboard.html", user=session["user"])
+        return render_template("dashboard.html", user=user)
 
     @app.route("/logout")
     def logout():
+        sessions.pop(session.get("sid"), None)
         session.clear()
         return redirect(url_for("login"))
 
