@@ -1,0 +1,125 @@
+{
+ "results": {
+  "TC-01": {
+   "status": "Pass",
+   "actual": "HTTP 302 redirect to /dashboard; dashboard shows 'Welcome, rohan123'; session cookie set"
+  },
+  "TC-02": {
+   "status": "Pass",
+   "actual": "HTTP 401, message: 'Invalid username'; no session created"
+  },
+  "TC-03": {
+   "status": "Pass",
+   "actual": "HTTP 401, message: 'Incorrect password'; no session created"
+  },
+  "TC-04": {
+   "status": "Fail",
+   "actual": "HTTP 401, message: 'Invalid username'"
+  },
+  "TC-05": {
+   "status": "Fail",
+   "actual": "HTTP 401, message: 'Invalid username'"
+  },
+  "TC-06": {
+   "status": "Fail",
+   "actual": "HTTP 401, message: 'Incorrect password'"
+  },
+  "TC-07": {
+   "status": "Fail",
+   "actual": "HTTP 401, message: 'Invalid username'"
+  },
+  "TC-08": {
+   "status": "Pass",
+   "actual": "HTTP 302 redirect to /dashboard; dashboard accessible"
+  },
+  "TC-09": {
+   "status": "Pass",
+   "actual": "HTTP 302 redirect to /dashboard; dashboard accessible"
+  },
+  "TC-10": {
+   "status": "Fail",
+   "actual": "HTTP 401, message: 'Invalid username'"
+  },
+  "TC-11": {
+   "status": "Fail",
+   "actual": "HTTP 401, message: 'Incorrect password'"
+  },
+  "TC-12": {
+   "status": "Fail",
+   "actual": "HTTP 401, message: 'Incorrect password'"
+  },
+  "TC-13": {
+   "status": "Fail",
+   "actual": "5 failures returned [401, 401, 401, 401, 401]; 6th attempt with correct password: HTTP 302 redirect to /dashboard; no lock applied"
+  },
+  "TC-14": {
+   "status": "Pass",
+   "actual": "HTTP 401, message: 'Invalid username'; no session created"
+  },
+  "TC-15": {
+   "status": "Pass",
+   "actual": "HTTP 401, message: 'Incorrect password'; no session created"
+  },
+  "TC-16": {
+   "status": "Pass",
+   "actual": "HTTP 401, message: 'Invalid username'; payload not reflected in response"
+  },
+  "TC-17": {
+   "status": "Fail",
+   "actual": "Unknown user: HTTP 401 'Invalid username'; wrong password: HTTP 401 'Incorrect password'"
+  },
+  "TC-18": {
+   "status": "Pass",
+   "actual": "Password input type=password: yes; stored value is a 64-character hash, not plain text: yes"
+  },
+  "TC-19": {
+   "status": "Pass",
+   "actual": "Set-Cookie header includes HttpOnly"
+  },
+  "TC-20": {
+   "status": "Pass",
+   "actual": "HTTP 302 redirect to /login"
+  },
+  "TC-21": {
+   "status": "Pass",
+   "actual": "Dashboard before logout: HTTP 200; after logout: HTTP 302 redirect to /login"
+  },
+  "TC-22": {
+   "status": "Fail",
+   "actual": "Dashboard requested with the old session cookie after logout: HTTP 200, protected page still accessible"
+  },
+  "TC-23": {
+   "status": "Pass",
+   "actual": "HTTP 401, message: 'Invalid username'; no session created"
+  },
+  "TC-24": {
+   "status": "Pass",
+   "actual": "Leading space: HTTP 401; trailing space: HTTP 401; no session created"
+  },
+  "TC-25": {
+   "status": "Pass",
+   "actual": "HTTP 401, message: 'Invalid username'; no server error"
+  },
+  "TC-26": {
+   "status": "Blocked",
+   "actual": "Cannot be tested: account lock is not enforced (TC-13 failed), so there is no lock to expire"
+  },
+  "TC-27": {
+   "status": "Not Executed",
+   "actual": "Not run: the test environment serves plain HTTP; needs an HTTPS deployment"
+  },
+  "TC-28": {
+   "status": "Not Executed",
+   "actual": "Not run: only Chromium is available in the test environment"
+  }
+ },
+ "summary": {
+  "Pass": 15,
+  "Fail": 10,
+  "Blocked": 1,
+  "Not Executed": 2,
+  "Executed": 25,
+  "Total": 28,
+  "PassPercentage": 60.0
+ }
+}
