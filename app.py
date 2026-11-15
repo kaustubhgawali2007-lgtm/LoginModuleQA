@@ -62,9 +62,9 @@ def create_app(config=None):
                 "SELECT salt, pw_hash FROM users WHERE username = ?", (username,)
             ).fetchone()
             if row is None:
-                error = "Invalid username"
+                error = "Invalid username or password"
             elif not hmac.compare_digest(hash_password(password, bytes.fromhex(row[0])), row[1]):
-                error = "Incorrect password"
+                error = "Invalid username or password"
             else:
                 session["user"] = username
                 return redirect(url_for("dashboard"))
