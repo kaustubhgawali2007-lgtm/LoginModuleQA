@@ -3,8 +3,12 @@ import hashlib
 import hmac
 import os
 import sqlite3
+import time
 
 from flask import Flask, redirect, render_template, request, session, url_for
+
+MAX_ATTEMPTS = 5
+LOCK_SECONDS = 15 * 60
 
 SEED_USERS = {
     "rohan123": "Secure2026",
@@ -45,6 +49,8 @@ def create_app(config=None):
         db.execute("INSERT INTO users VALUES (?, ?, ?)", (name, salt.hex(), hash_password(pw, salt)))
     db.commit()
     app.config["DB"] = db
+    app.config.setdefault("CLOCK", time.time)
+    failures = {}  # username -> {"count": int, "locked_until": float}
 
     @app.route("/")
     def index():
@@ -58,17 +64,26 @@ def create_app(config=None):
             error = validate(username, password)
             if error:
                 return render_template("login.html", error=error), 400
+            now = app.config["CLOCK"]()
+            state = failures.setdefault(username, {"count": 0, "locked_until": 0})
+            if state["locked_until"] > now:
+                return render_template(
+                    "login.html", error="Account temporarily locked. Try again after 15 minutes."
+                ), 429
             row = db.execute(
                 "SELECT salt, pw_hash FROM users WHERE username = ?", (username,)
             ).fetchone()
-            if row is None:
-                error = "Invalid username or password"
-            elif not hmac.compare_digest(hash_password(password, bytes.fromhex(row[0])), row[1]):
-                error = "Invalid username or password"
-            else:
-                session["user"] = username
-                return redirect(url_for("dashboard"))
-            return render_template("login.html", error=error), 401
+            if row is None or not hmac.compare_digest(
+                hash_password(password, bytes.fromhex(row[0])), row[1]
+            ):
+                state["count"] += 1
+                if state["count"] >= MAX_ATTEMPTS:
+                    state["locked_until"] = now + LOCK_SECONDS
+                    state["count"] = 0
+                return render_template("login.html", error="Invalid username or password"), 401
+            failures.pop(username, None)
+            session["user"] = username
+            return redirect(url_for("dashboard"))
         return render_template("login.html")
 
     @app.route("/dashboard")
