@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Online Movie Ticket Booking - Dashboard</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f3f5f9;display:flex;justify-content:center;padding-top:40px;margin:0}
+.card{background:#fff;padding:26px 30px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.15);width:320px}
+h1{font-size:19px;margin:0 0 10px;color:#1F3864}
+p{font-size:14px}
+a{color:#1F3864}
+</style>
+</head>
+<body>
+<div class="card">
+<h1 id="welcome">Welcome, {{ user }}</h1>
+<p>You are logged in. Your bookings: none yet.</p>
+<p><a href="{{ url_for('logout') }}" id="logout">Logout</a></p>
+</div>
+</body>
+</html>
