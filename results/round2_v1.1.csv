@@ -1,0 +1,29 @@
+Test Case ID,Expected Result,Actual Result,Status
+TC-01,"User is authenticated, redirected to the dashboard and a session is created","HTTP 302 redirect to /dashboard; dashboard shows 'Welcome, rohan123'; session cookie set",Pass
+TC-02,Access is denied and an error message is displayed,"HTTP 401, message: 'Invalid username or password'; no session created",Pass
+TC-03,Access is denied and an error message is displayed,"HTTP 401, message: 'Invalid username or password'; no session created",Pass
+TC-04,Required-field validation is displayed,"HTTP 400, message: 'Username and password are required'",Pass
+TC-05,Username validation is displayed,"HTTP 400, message: 'Username is required'",Pass
+TC-06,Password validation is displayed,"HTTP 400, message: 'Password is required'",Pass
+TC-07,Validation message: username must be 5 to 12 characters,"HTTP 400, message: 'Username must be 5 to 12 characters'",Pass
+TC-08,Login succeeds,HTTP 302 redirect to /dashboard; dashboard accessible,Pass
+TC-09,Login succeeds,HTTP 302 redirect to /dashboard; dashboard accessible,Pass
+TC-10,Validation message: username must be 5 to 12 characters,"HTTP 400, message: 'Username must be 5 to 12 characters'",Pass
+TC-11,Validation message: password must be 8 to 16 characters,"HTTP 400, message: 'Password must be 8 to 16 characters'",Pass
+TC-12,Validation message: password must be 8 to 16 characters,"HTTP 400, message: 'Password must be 8 to 16 characters'",Pass
+TC-13,After 5 failures the account is locked; the 6th attempt is rejected with a lock message,"5 failures returned [401, 401, 401, 401, 401]; 6th attempt with correct password rejected: HTTP 429, message: 'Account temporarily locked. Try again after 15 minutes.'",Pass
+TC-14,Input is treated as data; access denied; no server error,"HTTP 401, message: 'Invalid username or password'; no session created",Pass
+TC-15,Input is treated as data; access denied; no server error,"HTTP 401, message: 'Invalid username or password'; no session created",Pass
+TC-16,Access denied; the script is not reflected unescaped in the page,"HTTP 400, message: 'Username must be 5 to 12 characters'; payload not reflected in response",Pass
+TC-17,"Both responses are identical, so valid usernames are not revealed",Unknown user: HTTP 401 'Invalid username or password'; wrong password: HTTP 401 'Invalid username or password',Pass
+TC-18,"Password input is masked; stored value is a hash, not plain text","Password input type=password: yes; stored value is a 64-character hash, not plain text: yes",Pass
+TC-19,Session cookie is marked HttpOnly,Set-Cookie header includes HttpOnly,Pass
+TC-20,User is redirected to the login page,HTTP 302 redirect to /login,Pass
+TC-21,After logout the dashboard redirects to the login page,Dashboard before logout: HTTP 200; after logout: HTTP 302 redirect to /login,Pass
+TC-22,Protected page is not accessible; redirect to login,Dashboard requested with the old session cookie after logout: HTTP 302 redirect to /login,Pass
+TC-23,Access is denied (usernames are case-sensitive),"HTTP 401, message: 'Invalid username or password'; no session created",Pass
+TC-24,Access is denied (spaces are part of the password),Leading space: HTTP 401; trailing space: HTTP 401; no session created,Pass
+TC-25,Handled without a server error; access denied,"HTTP 400, message: 'Username must be 5 to 12 characters'; no server error",Pass
+TC-26,Still locked at 14 minutes; login succeeds after 15 minutes,After 14 minutes: HTTP 429 (still locked); after 15 minutes 1 second: HTTP 302 redirect to /dashboard,Pass
+TC-27,Login works over HTTPS; session cookie has the Secure flag,Not run: the test environment serves plain HTTP; needs an HTTPS deployment,Not Executed
+TC-28,Login works the same as in Chromium,Not run: only Chromium is available in the test environment,Not Executed

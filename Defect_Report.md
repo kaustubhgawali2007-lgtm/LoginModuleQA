@@ -9,7 +9,7 @@
 - Severity: Major
 - Priority: P2
 - Recommended corrective action: Validate required fields before authentication and show a clear message.
-- Current status: Open
+- Current status: Closed (fixed in 83ccc44)
 
 ## BUG-02 - No length validation
 - Related test cases: TC-07, TC-10, TC-11, TC-12
@@ -20,7 +20,7 @@
 - Severity: Minor
 - Priority: P3
 - Recommended corrective action: Add length checks (5-12 and 8-16 characters) before the database lookup.
-- Current status: Open
+- Current status: Closed (fixed in 83ccc44)
 
 ## BUG-03 - Account enumeration through different error messages
 - Related test cases: TC-17
@@ -31,7 +31,7 @@
 - Severity: Major
 - Priority: P2
 - Recommended corrective action: Return one generic message for every failed authentication.
-- Current status: Open
+- Current status: Closed (fixed in 51cdff3)
 
 ## BUG-04 - No protection against repeated failed logins
 - Related test cases: TC-13 (TC-26 blocked)
@@ -42,7 +42,7 @@
 - Severity: Critical
 - Priority: P1
 - Recommended corrective action: Lock the account for 15 minutes after 5 consecutive failures.
-- Current status: Open
+- Current status: Closed (fixed in f931c30)
 
 ## BUG-05 - Session still valid after logout
 - Related test cases: TC-22
@@ -53,5 +53,5 @@
 - Severity: Critical
 - Priority: P1
 - Recommended corrective action: Keep sessions on the server and delete the session on logout.
-- Current status: Open
+- Current status: Closed (fixed in 97aa62e)
 
