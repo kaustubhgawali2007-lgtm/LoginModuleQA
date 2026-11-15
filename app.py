@@ -17,6 +17,21 @@ def hash_password(password, salt):
     return hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 100_000).hex()
 
 
+def validate(username, password):
+    """Return an error message for invalid input, or None when the input is acceptable."""
+    if not username and not password:
+        return "Username and password are required"
+    if not username:
+        return "Username is required"
+    if not password:
+        return "Password is required"
+    if not 5 <= len(username) <= 12:
+        return "Username must be 5 to 12 characters"
+    if not 8 <= len(password) <= 16:
+        return "Password must be 8 to 16 characters"
+    return None
+
+
 def create_app(config=None):
     app = Flask(__name__)
     app.secret_key = "dev-secret-key"
@@ -40,6 +55,9 @@ def create_app(config=None):
         if request.method == "POST":
             username = request.form.get("username", "")
             password = request.form.get("password", "")
+            error = validate(username, password)
+            if error:
+                return render_template("login.html", error=error), 400
             row = db.execute(
                 "SELECT salt, pw_hash FROM users WHERE username = ?", (username,)
             ).fetchone()
